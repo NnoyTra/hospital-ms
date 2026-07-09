@@ -1,0 +1,22 @@
+package com.nnoi.app.hospital_ms.controller;
+
+import com.nnoi.app.hospital_ms.model.Patient;
+import com.nnoi.app.hospital_ms.service.PatientService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/patient")
+public class PatientController {
+
+    @Autowired private PatientService patientService;
+
+    @GetMapping
+    List<Patient> getPatients() {
+        return patientService.getPatientList();
+    }
+}
