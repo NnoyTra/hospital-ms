@@ -1,9 +1,8 @@
 package com.nnoi.app.hospital_ms.controller;
 
-import com.nnoi.app.hospital_ms.model.Patient;
+import com.nnoi.app.hospital_ms.entity.Patient;
 import com.nnoi.app.hospital_ms.service.PatientService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;

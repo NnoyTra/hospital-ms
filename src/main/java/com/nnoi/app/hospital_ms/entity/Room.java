@@ -1,4 +1,4 @@
-package com.nnoi.app.hospital_ms.model;
+package com.nnoi.app.hospital_ms.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;

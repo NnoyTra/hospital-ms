@@ -1,10 +1,7 @@
 package com.nnoi.app.hospital_ms.repository;
 
-import com.nnoi.app.hospital_ms.model.Appointment;
-import com.nnoi.app.hospital_ms.model.Room;
+import com.nnoi.app.hospital_ms.entity.Appointment;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;

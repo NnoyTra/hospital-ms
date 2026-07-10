@@ -1,12 +1,13 @@
 package com.nnoi.app.hospital_ms.controller;
 
-import com.nnoi.app.hospital_ms.model.Appointment;
+import com.nnoi.app.hospital_ms.entity.Appointment;
+import com.nnoi.app.hospital_ms.model.AppointmentRequest;
+import com.nnoi.app.hospital_ms.model.AppointmentResponse;
 import com.nnoi.app.hospital_ms.service.AppointmentService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -20,5 +21,12 @@ public class AppointmentController {
     @GetMapping
     List<Appointment> getDoctors() {
         return appointmentService.getAppointmentList();
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<AppointmentResponse> createAppointment(@RequestBody AppointmentRequest appointmentRequest) {
+        appointmentService.publishAppointment(appointmentRequest);
+        AppointmentResponse appResponse = new AppointmentResponse("Processing Message", HttpStatus.OK);
+        return ResponseEntity.ok(appResponse);
     }
 }

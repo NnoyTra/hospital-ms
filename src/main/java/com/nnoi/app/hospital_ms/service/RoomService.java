@@ -1,9 +1,8 @@
 package com.nnoi.app.hospital_ms.service;
 
-import com.nnoi.app.hospital_ms.model.Room;
+import com.nnoi.app.hospital_ms.entity.Room;
 import com.nnoi.app.hospital_ms.repository.RoomRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
