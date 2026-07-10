@@ -3,6 +3,7 @@ package com.nnoi.app.hospital_ms.service;
 import com.nnoi.app.hospital_ms.entity.Appointment;
 import com.nnoi.app.hospital_ms.exceptions.CreatedAppointmentNotPresentException;
 import com.nnoi.app.hospital_ms.model.AppointmentRequest;
+import com.nnoi.app.hospital_ms.model.CreateAppointment;
 import com.nnoi.app.hospital_ms.producer.AppointmentEventPublisher;
 import com.nnoi.app.hospital_ms.repository.AppointmentRepository;
 import com.nnoi.app.hospital_ms.util.validator.CreateAppointmentValidator;
@@ -17,6 +18,7 @@ public class AppointmentService {
 
     private AppointmentRepository appointmentRepository;
     private AppointmentEventPublisher appointmentEventPublisher;
+    private CreateAppointmentValidator createAppointmentValidator;
 
     public List<Appointment> getAppointmentList() {
         return appointmentRepository.getAllAppointments();
@@ -25,9 +27,12 @@ public class AppointmentService {
     public void publishAppointment(AppointmentRequest appointmentRequest) {
         if (appointmentRequest == null || appointmentRequest.getCreateAppointment() == null)
             throw new CreatedAppointmentNotPresentException();
-        CreateAppointmentValidator.validate(appointmentRequest.getCreateAppointment());
+        createAppointmentValidator.validate(appointmentRequest.getCreateAppointment());
 
         //If no exception at this point means the message is ready to be published
+        CreateAppointment createAppointment = appointmentRequest.getCreateAppointment();
+        String roomId = Integer.toString(createAppointment.getRoomId());
+        appointmentEventPublisher.publish(roomId, appointmentRequest);
     }
 
 
