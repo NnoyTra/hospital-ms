@@ -12,9 +12,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class DoctorService {
 
-    @Autowired private DoctorRepository doctorRepository;
+    private DoctorRepository doctorRepository;
 
     public List<Doctor> getDoctorList() {
         return doctorRepository.getAllDoctors();
