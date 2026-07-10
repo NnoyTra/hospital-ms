@@ -79,6 +79,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        CACHEBUST: ${CACHEBUST}
     image: hospital-app:v01.01
     container_name: hospital-container
     ports:

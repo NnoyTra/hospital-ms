@@ -5,7 +5,8 @@ RUN apk add --no-cache git
 WORKDIR /app
 
 ARG CACHEBUST=1
-RUN git clone --branch main --depth 1 https://github.com/NnoyTra/hospital-ms.git .
+RUN echo "Cache bust: $CACHEBUST" && \
+    git clone --branch main --depth 1 https://github.com/NnoyTra/hospital-ms.git .
 
 RUN chmod +x mvnw
 RUN ./mvnw dependency:go-offline -B
