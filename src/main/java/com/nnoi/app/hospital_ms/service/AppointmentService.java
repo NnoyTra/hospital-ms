@@ -27,10 +27,10 @@ public class AppointmentService {
     public void publishAppointment(AppointmentRequest appointmentRequest) {
         if (appointmentRequest == null || appointmentRequest.getCreateAppointment() == null)
             throw new CreatedAppointmentNotPresentException();
-        createAppointmentValidator.validate(appointmentRequest.getCreateAppointment());
+        CreateAppointment createAppointment = appointmentRequest.getCreateAppointment();
+        createAppointmentValidator.validate(createAppointment);
 
         //If no exception at this point means the message is ready to be published
-        CreateAppointment createAppointment = appointmentRequest.getCreateAppointment();
         String roomId = Integer.toString(createAppointment.getRoomId());
         appointmentEventPublisher.publish(roomId, appointmentRequest);
     }
