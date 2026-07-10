@@ -1,58 +1,82 @@
-version: "3.7"
-
 services:
-  app:
-    build: .
+  #MYSQL
+  mysql-db:
+    image: mysql:8.4
+    container_name: mysql-container
     ports:
-      - "9090:9090"
-    container_name: springboot-app1
-    restart: unless-stopped
+      - 3307:3306
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/hospital
+      MYSQL_ROOT_PASSWORD: mypass
+      MYSQL_DATABASE: hospital
+    volumes:
+      - mysql-volume:/var/lib/mysql
+    networks:
+      - appNetwork
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pmypass"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 10s
+
+  #NGINX
+  nginx-app:
+    image: nginx:alpine
+    container_name: nginx-container
+    ports:
+      - 9090:80
+    environment:
+      MYSQL_ROOT_PASSWORD: mypass
+      MYSQL_DATABASE: hospital
+    networks:
+      - appNetwork
+
+  #REDIS
+  redis-cache:
+    image: redis:7-alpine
+    container_name: redis-container
+    ports:
+      - 6379:6379
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container:3306/hospital
       SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: nn0itr@.
-      SPRING_REDIS_HOST: redis
+      SPRING_DATASOURCE_PASSWORD: mypass
+    networks:
+      - appNetwork
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 5s
+
+  hospital-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: hospital-app:v01.01
+    container_name: hospital-container
+    ports:
+      - 8081:8081
+    environment:
+      SERVER_PORT: 8081
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql-container:3306/hospital
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: mypass
+      SPRING_REDIS_HOST: redis-container
       SPRING_REDIS_PORT: 6379
     depends_on:
-      mysql:
+      mysql-db:
         condition: service_healthy
-      redis:
-        condition: service_started
+      redis-cache:
+        condition: service_healthy
     networks:
-      - backend
+      - appNetwork
 
-  mysql:
-    image: mysql:8.0
-    container_name: mysql-db
-    restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: nn0itr@.
-      MYSQL_DATABASE: hospital
-      MYSQL_USER: appuser
-      MYSQL_PASSWORD: apppass
-    ports:
-      - "3306:3306"
-    volumes:
-      - mysql-data:/var/lib/mysql
-    networks:
-      - backend
-    healthcheck:
-      test: [ "CMD", "mysqladmin", "ping", "-h", "localhost" ]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  redis:
-    image: redis:7-alpine
-    container_name: redis-cache
-    restart: unless-stopped
-    ports:
-      - "6379:6379"
-    networks:
-      - backend
 
 networks:
-  frontend:
+  appNetwork:
+    driver: bridge
 
 volumes:
-  mysql-data:
+  mysql-volume:
