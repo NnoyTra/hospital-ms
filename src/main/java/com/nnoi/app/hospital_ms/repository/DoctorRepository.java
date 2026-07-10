@@ -23,11 +23,6 @@ public class DoctorRepository {
 
         StringBuilder sql = new StringBuilder("SELECT * FROM " + DOCTOR);
         Map<String, String> params = new HashMap<>();
-        Comparator<String> compara = (String o1, String o2) -> o1.length() >= o2.length() ? 1 : 0;
-
-        List<String> list = List.of("Aaaff", "ddd");
-        list.sort(compara);
-
         List<Doctor> doctorResultSet = namedTemplate.query(sql.toString(), params, new BeanPropertyRowMapper<>(Doctor.class));
 
         return doctorResultSet;
