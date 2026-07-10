@@ -1,9 +1,8 @@
 package com.nnoi.app.hospital_ms.controller;
 
-import com.nnoi.app.hospital_ms.model.Doctor;
-import com.nnoi.app.hospital_ms.service.DoctorService;
+import com.nnoi.app.hospital_ms.model.Appointment;
+import com.nnoi.app.hospital_ms.service.AppointmentService;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,14 +11,14 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/doctor")
+@RequestMapping("/appointment")
 @AllArgsConstructor
-public class DoctorController {
+public class AppointmentController {
 
-    private DoctorService doctorService;
+    private AppointmentService appointmentService;
 
     @GetMapping
-    List<Doctor> getDoctors() {
-        return doctorService.getDoctorList();
+    List<Appointment> getDoctors() {
+        return appointmentService.getAppointmentList();
     }
 }

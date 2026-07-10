@@ -1,8 +1,9 @@
 package com.nnoi.app.hospital_ms.repository;
 
 import com.nnoi.app.hospital_ms.model.Doctor;
-import com.nnoi.app.hospital_ms.model.Patient;
+import com.nnoi.app.hospital_ms.model.Room;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -14,15 +15,15 @@ import java.util.Map;
 
 @Repository
 @AllArgsConstructor
-public class PatientRepository {
+public class RoomRepository {
 
-    private final String PATIENT = "patient";
+    private final String ROOM = "room";
     private NamedParameterJdbcTemplate namedTemplate;
 
-    public List<Patient> getAllPatients() {
-        StringBuilder sql = new StringBuilder("SELECT * FROM " + PATIENT);
+    public List<Room> getAllRooms() {
+        StringBuilder sql = new StringBuilder("SELECT * FROM " + ROOM);
         Map<String, String> params = new HashMap<>();
-        List<Patient> patientResultSet = namedTemplate.query(sql.toString(), params, new BeanPropertyRowMapper<>(Patient.class));
-        return patientResultSet;
+        List<Room> resultSet = namedTemplate.query(sql.toString(), params, new BeanPropertyRowMapper<>(Room.class));
+        return resultSet;
     }
 }

@@ -13,18 +13,15 @@ import java.util.concurrent.CompletableFuture;
 
 @Repository
 @AllArgsConstructor
-@NoArgsConstructor
 public class DoctorRepository {
 
     private final String DOCTOR = "doctor";
+    private NamedParameterJdbcTemplate namedTemplate;
 
-    @Autowired private NamedParameterJdbcTemplate namedTemplate;
     public List<Doctor> getAllDoctors() {
-
         StringBuilder sql = new StringBuilder("SELECT * FROM " + DOCTOR);
         Map<String, String> params = new HashMap<>();
         List<Doctor> doctorResultSet = namedTemplate.query(sql.toString(), params, new BeanPropertyRowMapper<>(Doctor.class));
-
         return doctorResultSet;
     }
 }
