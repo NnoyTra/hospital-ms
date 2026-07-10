@@ -52,7 +52,7 @@ services:
 
   #KAFKA
   kafka:
-    image: apache/kafka:3.9.0
+    image: apache/kafka:4.3.1
     container_name: kafka-container
     ports:
       - "9092:9092"
