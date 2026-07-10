@@ -1,4 +1,4 @@
-package com.nnoi.app.hospital_ms.model;
+package com.nnoi.app.hospital_ms.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -9,17 +9,17 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDate;
 
 @Entity
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
-public class Patient {
+@AllArgsConstructor
+@NoArgsConstructor
+public class Doctor {
 
     @Id
-    private int patientId;
+    private int doctorId;
     private String firstname;
     private String lastname;
-    private LocalDate dob;
-    private LocalDate dateOfIntern;
-    private LocalDate dateOfRelease;
-    private Integer attendingDoctorId;
+    private String specialty;
+    private String phone;
+    private String email;
+    private LocalDate hireDate;
 }
