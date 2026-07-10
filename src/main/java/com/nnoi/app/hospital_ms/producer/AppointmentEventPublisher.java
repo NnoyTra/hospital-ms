@@ -2,6 +2,9 @@ package com.nnoi.app.hospital_ms.producer;
 
 import com.nnoi.app.hospital_ms.config.KafkaTopicList;
 import com.nnoi.app.hospital_ms.entity.Appointment;
+import com.nnoi.app.hospital_ms.model.AppointmentRequest;
+import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
@@ -11,26 +14,22 @@ import org.springframework.stereotype.Service;
 import java.util.concurrent.CompletableFuture;
 
 @Service
+@Slf4j
+@AllArgsConstructor
 public class AppointmentEventPublisher {
 
-    private static final Logger log = LoggerFactory.getLogger(AppointmentEventPublisher.class);
-
-    private final KafkaTemplate<String, Appointment> kafkaTemplate;
-
-    public AppointmentEventPublisher(KafkaTemplate<String, Appointment> kafkaTemplate) {
-        this.kafkaTemplate = kafkaTemplate;
-    }
+    private final KafkaTemplate<String, AppointmentRequest> kafkaTemplate;
 
     /**
      * Publishes an Appointment event keyed by the appointment id.
      * Using the id as the key ensures all events for the same
      * appointment land on the same partition, preserving order.
      */
-    public void publish(String key, Appointment appointment) {
+    public void publish(String key, AppointmentRequest appointmentRequest) {
         String topic = KafkaTopicList.APPOINTMENT;
-        CompletableFuture<SendResult<String, Appointment>> future =
-                kafkaTemplate.send(topic, key, appointment);
-
+        log.info("Preparing to publish event [{}] with appointment [{}]", topic, appointmentRequest);
+        CompletableFuture<SendResult<String, AppointmentRequest>> future =
+                kafkaTemplate.send(topic, key, appointmentRequest);
         future.whenComplete((result, ex) -> {
             if (ex == null) {
                 log.info("Published appointment [{}] to topic [{}] partition [{}] offset [{}]",

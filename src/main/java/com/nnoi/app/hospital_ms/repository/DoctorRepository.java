@@ -1,6 +1,7 @@
 package com.nnoi.app.hospital_ms.repository;
 
 import com.nnoi.app.hospital_ms.entity.Doctor;
+import com.nnoi.app.hospital_ms.entity.Patient;
 import lombok.AllArgsConstructor;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -20,5 +21,15 @@ public class DoctorRepository {
         Map<String, String> params = new HashMap<>();
         List<Doctor> doctorResultSet = namedTemplate.query(sql.toString(), params, new BeanPropertyRowMapper<>(Doctor.class));
         return doctorResultSet;
+    }
+
+    public Doctor getById(Integer doctorId) {
+        StringBuilder sql = new StringBuilder("SELECT * FROM ").append(DOCTOR).append(" WHERE doctor_id = :doctorId");
+        Map<String, Object> params = new HashMap<>();
+        params.put("doctorId", doctorId);
+        List<Doctor> resultSet = namedTemplate.query(sql.toString(), params, new BeanPropertyRowMapper<>(Doctor.class));
+        return resultSet.stream()
+                .findFirst()
+                .orElse(null);
     }
 }

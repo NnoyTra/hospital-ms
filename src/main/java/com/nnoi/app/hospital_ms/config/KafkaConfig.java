@@ -1,6 +1,7 @@
 package com.nnoi.app.hospital_ms.config;
 
 import com.nnoi.app.hospital_ms.entity.Appointment;
+import com.nnoi.app.hospital_ms.model.AppointmentRequest;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -28,7 +29,7 @@ public class KafkaConfig {
     private String bootstrapServers;
 
     @Bean
-    public ProducerFactory<String, Appointment> appointmentProducerFactory() {
+    public ProducerFactory<String, AppointmentRequest> appointmentProducerFactory() {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -44,7 +45,7 @@ public class KafkaConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, Appointment> appointmentKafkaTemplate() {
+    public KafkaTemplate<String, AppointmentRequest> appointmentKafkaTemplate() {
         return new KafkaTemplate<>(appointmentProducerFactory());
     }
 

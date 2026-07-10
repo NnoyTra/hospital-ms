@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreatedAppointmentNotPresentException extends RuntimeException{
+public class RoomNotFoundException extends RuntimeException{
     private String message;
     private HttpStatus httpStatusCode = HttpStatus.BAD_REQUEST;
 }

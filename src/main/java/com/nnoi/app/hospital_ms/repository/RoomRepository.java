@@ -1,7 +1,9 @@
 package com.nnoi.app.hospital_ms.repository;
 
 import com.nnoi.app.hospital_ms.entity.Room;
+import com.nnoi.app.hospital_ms.exceptions.RoomNotFoundException;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -18,9 +20,35 @@ public class RoomRepository {
     private NamedParameterJdbcTemplate namedTemplate;
 
     public List<Room> getAllRooms() {
-        StringBuilder sql = new StringBuilder("SELECT * FROM " + ROOM);
-        Map<String, String> params = new HashMap<>();
+        StringBuilder sql = new StringBuilder("SELECT * FROM ").append(ROOM);
+        Map<String, Object> params = new HashMap<>();
         List<Room> resultSet = namedTemplate.query(sql.toString(), params, new BeanPropertyRowMapper<>(Room.class));
         return resultSet;
+    }
+
+    public Room getById(Integer roomId) {
+        StringBuilder sql = new StringBuilder("SELECT * FROM ").append(ROOM).append(" WHERE room_id = :roomId");
+        Map<String, Object> params = new HashMap<>();
+        params.put("roomId", String.valueOf(roomId));
+        List<Room> resultSet = namedTemplate.query(sql.toString(), params, new BeanPropertyRowMapper<>(Room.class));
+        return resultSet.stream()
+                .findFirst()
+                .orElse(null);
+    }
+
+    public boolean roomAvailable(Integer roomId) {
+        StringBuilder sql = new StringBuilder("SELECT * FROM ").append(ROOM).append(" WHERE room_id = :roomId").append(" AND is_reserved = FALSE");
+        Map<String, Object> params = new HashMap<>();
+        params.put("roomId", roomId);
+        List<Room> resultSet = namedTemplate.query(sql.toString(), params, new BeanPropertyRowMapper<>(Room.class));
+        return !resultSet.isEmpty();
+    }
+
+    public boolean roomInMaintenance(Integer roomId) {
+        StringBuilder sql = new StringBuilder("SELECT * FROM ").append(ROOM).append(" WHERE room_id = :roomId").append(" AND in_maintenance = TRUE");
+        Map<String, Object> params = new HashMap<>();
+        params.put("roomId", String.valueOf(roomId));
+        List<Room> resultSet = namedTemplate.query(sql.toString(), params, new BeanPropertyRowMapper<>(Room.class));
+        return resultSet.isEmpty();
     }
 }
