@@ -28,6 +28,13 @@ public class KafkaConfig {
     @Value("${spring.kafka.bootstrap-servers}")
     private String bootstrapServers;
 
+
+
+    @Bean
+    public KafkaTemplate<String, AppointmentRequest> appointmentKafkaTemplate() {
+        return new KafkaTemplate<>(appointmentProducerFactory());
+    }
+
     @Bean
     public ProducerFactory<String, AppointmentRequest> appointmentProducerFactory() {
         Map<String, Object> configProps = new HashMap<>();
@@ -42,11 +49,6 @@ public class KafkaConfig {
         configProps.put(JacksonJsonSerializer.ADD_TYPE_INFO_HEADERS, false);
 
         return new DefaultKafkaProducerFactory<>(configProps);
-    }
-
-    @Bean
-    public KafkaTemplate<String, AppointmentRequest> appointmentKafkaTemplate() {
-        return new KafkaTemplate<>(appointmentProducerFactory());
     }
 
     @Bean
