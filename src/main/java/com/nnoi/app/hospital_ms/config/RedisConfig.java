@@ -11,10 +11,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RedisConfig {
 
-    @Value("${spring.redis.host}")
+    @Value("${redis.host}")
     private String redisHost;
 
-    @Value("${spring.redis.port}")
+    @Value("${redis.port}")
     private int redisPort;
 
     @Bean(destroyMethod = "shutdown")
