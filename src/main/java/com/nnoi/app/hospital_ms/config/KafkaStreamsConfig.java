@@ -1,5 +1,6 @@
 package com.nnoi.app.hospital_ms.config;
 
+import com.nnoi.app.hospital_ms.util.serdes.AppointmentRequestSerde;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.StreamsConfig;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,7 +27,7 @@ public class KafkaStreamsConfig {
         props.put(StreamsConfig.APPLICATION_ID_CONFIG, "hospital-ms-streams");
         props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.StringSerde.class);
-        props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.StringSerde.class);
+        props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, AppointmentRequestSerde.class);
         props.put(StreamsConfig.REPLICATION_FACTOR_CONFIG, 1);
         props.put(StreamsConfig.NUM_STREAM_THREADS_CONFIG, 1);
         props.put(StreamsConfig.COMMIT_INTERVAL_MS_CONFIG, 1000);
