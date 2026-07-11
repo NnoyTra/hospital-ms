@@ -4,7 +4,7 @@ import com.nnoi.app.hospital_ms.entity.Appointment;
 import com.nnoi.app.hospital_ms.exceptions.CreatedAppointmentNotPresentException;
 import com.nnoi.app.hospital_ms.model.AppointmentRequest;
 import com.nnoi.app.hospital_ms.model.CreateAppointment;
-import com.nnoi.app.hospital_ms.producer.AppointmentEventPublisher;
+import com.nnoi.app.hospital_ms.kafka.AppointmentEventPublisher;
 import com.nnoi.app.hospital_ms.repository.AppointmentRepository;
 import com.nnoi.app.hospital_ms.util.validator.CreateAppointmentValidator;
 import lombok.AllArgsConstructor;

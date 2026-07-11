@@ -1,12 +1,9 @@
-package com.nnoi.app.hospital_ms.producer;
+package com.nnoi.app.hospital_ms.kafka;
 
 import com.nnoi.app.hospital_ms.config.KafkaTopicList;
-import com.nnoi.app.hospital_ms.entity.Appointment;
 import com.nnoi.app.hospital_ms.model.AppointmentRequest;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;

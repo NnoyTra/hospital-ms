@@ -7,6 +7,7 @@ public class KafkaTopicList {
     }
 
     public static final String APPOINTMENT = "appointment-events";
+    public static final String APPOINTMENT_WRONG_DATE = "appointment-events-wrong-date";
     public static final String DOCTOR = "doctor-events";
     public static final String PATIENT = "patient-events";
 }
