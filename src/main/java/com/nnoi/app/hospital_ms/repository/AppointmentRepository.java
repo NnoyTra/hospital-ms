@@ -18,7 +18,7 @@ public class AppointmentRepository {
     private NamedParameterJdbcTemplate namedTemplate;
 
     public List<Appointment> getAllAppointments() {
-        StringBuilder sql = new StringBuilder("SELECT * FROM " + APPOINTMENT);
+        StringBuilder sql = new StringBuilder("SELECT * FROM ").append(APPOINTMENT);
         Map<String, String> params = new HashMap<>();
         List<Appointment> resultSet = namedTemplate.query(sql.toString(), params, new BeanPropertyRowMapper<>(Appointment.class));
         return resultSet;

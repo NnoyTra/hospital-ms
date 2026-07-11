@@ -1,11 +1,7 @@
 package com.nnoi.app.hospital_ms.repository;
 
 import com.nnoi.app.hospital_ms.entity.Patient;
-import com.nnoi.app.hospital_ms.entity.Room;
-import com.nnoi.app.hospital_ms.exceptions.PatientNotFoundException;
-import com.nnoi.app.hospital_ms.exceptions.RoomNotFoundException;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -22,7 +18,7 @@ public class PatientRepository {
     private NamedParameterJdbcTemplate namedTemplate;
 
     public List<Patient> getAllPatients() {
-        StringBuilder sql = new StringBuilder("SELECT * FROM " + PATIENT).append(PATIENT);
+        StringBuilder sql = new StringBuilder("SELECT * FROM ").append(PATIENT);
         Map<String, Object> params = new HashMap<>();
         List<Patient> patientResultSet = namedTemplate.query(sql.toString(), params, new BeanPropertyRowMapper<>(Patient.class));
         return patientResultSet;
