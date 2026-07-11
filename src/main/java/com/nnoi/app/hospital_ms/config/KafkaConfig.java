@@ -1,7 +1,7 @@
 package com.nnoi.app.hospital_ms.config;
 
-import com.nnoi.app.hospital_ms.entity.Appointment;
 import com.nnoi.app.hospital_ms.model.AppointmentRequest;
+import com.nnoi.app.hospital_ms.util.serdes.AppointmentRequestSerializer;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
@@ -40,7 +40,7 @@ public class KafkaConfig {
         Map<String, Object> configProps = new HashMap<>();
         configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
         configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JacksonJsonSerializer.class);
+        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, AppointmentRequestSerializer.class);
 
         // Reliability settings - safe defaults for a publisher
         configProps.put(ProducerConfig.ACKS_CONFIG, "all");

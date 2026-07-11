@@ -2,6 +2,7 @@ package com.nnoi.app.hospital_ms.kafka;
 
 import com.nnoi.app.hospital_ms.config.KafkaTopicList;
 import com.nnoi.app.hospital_ms.model.AppointmentRequest;
+import com.nnoi.app.hospital_ms.util.serdes.AppointmentRequestSerde;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.StreamsBuilder;
@@ -28,12 +29,12 @@ public class AppointmentEventStream {
      */
     @Bean
     public KStream<String, AppointmentRequest> appointmentsWithWrongDate(StreamsBuilder builder) {
-        var appointmentRequestSerde = new JacksonJsonSerde<>(AppointmentRequest.class);
-        KStream<String, AppointmentRequest> appStream = builder.stream(KafkaTopicList.APPOINTMENT, Consumed.with(Serdes.String(), appointmentRequestSerde));
+
+        KStream<String, AppointmentRequest> appStream = builder.stream(KafkaTopicList.APPOINTMENT, Consumed.with(Serdes.String(), new AppointmentRequestSerde()));
         KStream<String, AppointmentRequest> appointmentStream = appStream.filter((key, appointmentRequest) ->
                         appointmentRequest.getCreateAppointment().getAppointmentDate().isBefore(LocalDate.now()))
                 .peek((key, appointmentRequest) -> log.warn("WRONG DATE - key: [{}], appointmentRequest: [{}]", key, appointmentRequest));
-        appointmentStream.to(KafkaTopicList.APPOINTMENT_WRONG_DATE, Produced.with(Serdes.String(), appointmentRequestSerde));
+        appointmentStream.to(KafkaTopicList.APPOINTMENT_WRONG_DATE, Produced.with(Serdes.String(), new AppointmentRequestSerde()));
         return appointmentStream;
     }
 
