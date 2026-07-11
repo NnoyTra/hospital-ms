@@ -1,9 +1,7 @@
 package com.nnoi.app.hospital_ms.repository;
 
 import com.nnoi.app.hospital_ms.entity.Room;
-import com.nnoi.app.hospital_ms.exceptions.RoomNotFoundException;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
